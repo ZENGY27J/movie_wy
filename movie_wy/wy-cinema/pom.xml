@@ -46,12 +46,13 @@
             <groupId>com.101tec</groupId>
             <artifactId>zkclient</artifactId>
             <version>0.10</version>
-        </dependency><dependency>
+        </dependency>
+        <dependency>
         <groupId>com.stylefeng.guns</groupId>
         <artifactId>wy-api</artifactId>
         <version>0.0.1</version>
         <scope>compile</scope>
-    </dependency>
+        </dependency>
     </dependencies>
 
     <build>
