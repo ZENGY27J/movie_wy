@@ -1,6 +1,7 @@
 package com.wuyan.user.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @Program: guns-parent
@@ -14,13 +15,14 @@ public class UserInfoModel implements Serializable {
     private String nickname;
     private String email;
     private String phone;
-    private int sex;
+    private Integer sex;
     private String birthday;
     private String biography;
+    private Integer lifeState;
     private String address;
     private String headAddress;
-    private long beginTime;
-    private long updateTime;
+    private Date beginTime;
+    private Date updateTime;
 
     public Integer getUuid() {
         return uuid;
@@ -62,11 +64,11 @@ public class UserInfoModel implements Serializable {
         this.phone = phone;
     }
 
-    public int getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(int sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 
@@ -102,19 +104,27 @@ public class UserInfoModel implements Serializable {
         this.headAddress = headAddress;
     }
 
-    public long getBeginTime() {
+    public Date getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(long beginTime) {
+    public void setBeginTime(Date beginTime) {
         this.beginTime = beginTime;
     }
 
-    public long getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(long updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getLifeState() {
+        return lifeState;
+    }
+
+    public void setLifeState(Integer lifeState) {
+        this.lifeState = lifeState;
     }
 }
