@@ -6,6 +6,8 @@ import com.stylefeng.guns.rest.common.persistence.dao.UserMapper;
 import com.stylefeng.guns.rest.common.persistence.model.MtimeUserT;
 import com.stylefeng.guns.rest.common.persistence.model.User;
 import com.wuyan.user.UserService;
+import com.wuyan.user.bean.UserInfoModel;
+import com.wuyan.user.bean.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,5 +29,35 @@ public class userServiceImpl implements UserService {
         MtimeUserT mtimeUserT = mtimeUserTMapper.selectById(id);
         String userName = mtimeUserT.getUserName();
         return userName;
+    }
+
+    @Override
+    public boolean register(UserModel userModel) {
+        return false;
+    }
+
+    @Override
+    public boolean checkUserName(String username) {
+        return false;
+    }
+
+    @Override
+    public Integer login(String username, String password) {
+        return null;
+    }
+
+    @Override
+    public int logout(Integer id) {
+        return 0;
+    }
+
+    @Override
+    public UserInfoModel queryUserInfo(Integer id) {
+        return null;
+    }
+
+    @Override
+    public UserInfoModel updateUserInfo(UserInfoModel userInfoModel) {
+        return null;
     }
 }
