@@ -7,14 +7,7 @@ import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
 
-/**
- * <p>
- * 影院信息表
- * </p>
- *
- * @author zyy
- * @since 2019-10-15
- */
+
 @TableName("mtime_cinema_t")
 public class MtimeCinemaT extends Model<MtimeCinemaT> {
 

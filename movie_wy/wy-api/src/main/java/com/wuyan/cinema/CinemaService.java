@@ -1,10 +1,12 @@
-package com.wuyan.cinemaService;
+package com.wuyan.cinema;
 
 import com.wuyan.vo.*;
 
-import java.util.List;
-
 public interface CinemaService {
+    //@Description: 获取播放场次的接口
+    CinemaGetFieldsVo getFields(Integer cinemaId);
+
+    CinemaFieldInfo getFieldInfo(Integer cinemaId, Integer fieldId);
     CinemaListVo cinemaList(CinemaQueryVo cinemaQueryVo);
     CinemaCoditionVo cinemaCodition(CinemaConditionQueryVo cinemaConditionQueryVo);
 }

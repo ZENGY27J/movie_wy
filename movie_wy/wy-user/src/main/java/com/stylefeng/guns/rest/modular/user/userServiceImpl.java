@@ -12,7 +12,6 @@ import com.wuyan.user.bean.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Date;

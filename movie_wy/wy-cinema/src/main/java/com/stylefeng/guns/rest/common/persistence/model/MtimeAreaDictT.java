@@ -7,14 +7,7 @@ import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
 
-/**
- * <p>
- * 地域信息表
- * </p>
- *
- * @author zyy
- * @since 2019-10-15
- */
+
 @TableName("mtime_area_dict_t")
 public class MtimeAreaDictT extends Model<MtimeAreaDictT> {
 
