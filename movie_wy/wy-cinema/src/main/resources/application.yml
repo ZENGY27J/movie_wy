@@ -28,7 +28,7 @@ mybatis-plus:
 
 spring:
   application:
-    name: wy-user
+    name: wy-cinema
   dubbo:
     protocol:
       name: dubbo

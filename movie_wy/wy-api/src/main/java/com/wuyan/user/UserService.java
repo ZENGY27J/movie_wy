@@ -5,7 +5,6 @@ import com.wuyan.user.bean.UserModel;
 
 public interface UserService {
 
-    String getNameById(Integer id);
 
     /**
      * 用户注册接口
@@ -38,10 +37,10 @@ public interface UserService {
 
     /**
      * 用户信息查询接口
-     * @param id
+     * @param username
      * @return
      */
-    UserInfoModel queryUserInfo(Integer id);
+    UserInfoModel getUserInfo(String username);
 
     /**
      * 修改用户信息的接口

@@ -1,6 +1,9 @@
 package com.stylefeng.guns.rest.modular.auth.filter;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.stylefeng.guns.core.base.tips.ErrorTip;
+import com.stylefeng.guns.core.exception.GunsException;
+import com.stylefeng.guns.core.exception.GunsExceptionEnum;
 import com.stylefeng.guns.core.util.RenderUtil;
 import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.rest.config.properties.JwtProperties;
@@ -10,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -33,11 +37,21 @@ public class AuthFilter extends OncePerRequestFilter {
     @Autowired
     private JwtProperties jwtProperties;
 
+    @Autowired
+    private Jedis jedis;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (request.getServletPath().equals("/" + jwtProperties.getAuthPath())) {
+//        if (request.getServletPath().equals("/" + jwtProperties.getAuthPath())) {
+//            chain.doFilter(request, response);
+//            return;
+//        }
+        String[] split = jwtProperties.getIgnorelUrl().split(",");
+        for (String s : split) {
+            if (request.getServletPath().equals(s)) {
             chain.doFilter(request, response);
             return;
+            }
         }
         final String requestHeader = request.getHeader(jwtProperties.getHeader());
         String authToken = null;
@@ -46,10 +60,18 @@ public class AuthFilter extends OncePerRequestFilter {
 
             //验证token是否过期,包含了验证jwt是否正确
             try {
-                boolean flag = jwtTokenUtil.isTokenExpired(authToken);
-                if (flag) {
+//                boolean flag = jwtTokenUtil.isTokenExpired(authToken);
+//                if (flag) {
+//                    RenderUtil.renderJson(response, new ErrorTip(BizExceptionEnum.TOKEN_EXPIRED.getCode(), BizExceptionEnum.TOKEN_EXPIRED.getMessage()));
+//                    return;
+//                }
+                String username = jedis.get(authToken);
+                if (StringUtils.isBlank(username)) {
                     RenderUtil.renderJson(response, new ErrorTip(BizExceptionEnum.TOKEN_EXPIRED.getCode(), BizExceptionEnum.TOKEN_EXPIRED.getMessage()));
                     return;
+                } else {
+                    // 刷新用户token缓存时间
+                    jedis.expire(authToken,3600);
                 }
             } catch (JwtException e) {
                 //有异常就是token解析失败
