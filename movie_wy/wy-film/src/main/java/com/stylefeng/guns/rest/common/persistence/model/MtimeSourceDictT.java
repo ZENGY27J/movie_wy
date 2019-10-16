@@ -5,14 +5,12 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
-
 import java.io.Serializable;
 
 /**
  * <p>
  * 区域信息表
  * </p>
- *
  * @author wei
  * @since 2019-10-14
  */

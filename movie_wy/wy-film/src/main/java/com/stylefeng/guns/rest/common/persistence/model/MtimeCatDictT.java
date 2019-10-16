@@ -5,19 +5,17 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
-
 import java.io.Serializable;
 
 /**
  * <p>
  * 类型信息表
  * </p>
- *
- * @author wei
+ * @author stylefeng
  * @since 2019-10-14
  */
 @TableName("mtime_cat_dict_t")
-public class MtimeCatDictT extends Model<MtimeCatDictT> {
+public class MtimeCatDictT extends Model<MtimeCatDictT> implements Serializable{
 
     private static final long serialVersionUID = 1L;
 

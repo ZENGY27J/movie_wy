@@ -8,4 +8,11 @@
         <result column="show_name" property="showName" />
     </resultMap>
 
+<<<<<<< HEAD
+=======
+    <select id="getAreaById" resultMap="BaseResultMap">
+        select * from mtime_source_dict_t where UUID = #{id}
+    </select>
+
+>>>>>>> 702e1656fffbe6fee26e4ae0bc3d2f75bed44f80
 </mapper>

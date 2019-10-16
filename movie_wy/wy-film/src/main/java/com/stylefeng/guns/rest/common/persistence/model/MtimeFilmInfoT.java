@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
-
 import java.io.Serializable;
 
 /**
@@ -13,11 +12,11 @@ import java.io.Serializable;
  * 影片主表
  * </p>
  *
- * @author wei
+ * @author stylefeng
  * @since 2019-10-14
  */
 @TableName("mtime_film_info_t")
-public class MtimeFilmInfoT extends Model<MtimeFilmInfoT> {
+public class MtimeFilmInfoT extends Model<MtimeFilmInfoT> implements Serializable{
 
     private static final long serialVersionUID = 1L;
 

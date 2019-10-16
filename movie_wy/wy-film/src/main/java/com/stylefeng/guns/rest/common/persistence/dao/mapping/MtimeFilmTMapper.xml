@@ -19,5 +19,19 @@
         <result column="film_status" property="filmStatus" />
     </resultMap>
 
+<<<<<<< HEAD
 
+=======
+    <select id="getFilmById" resultMap="BaseResultMap">
+        select * from mtime_film_t where UUID = #{id}
+    </select>
+
+    <select id="getFilmByKeyword" resultMap="BaseResultMap">
+        select * from mtime_film_t where film_name = #{keyword}
+    </select>
+
+    <select id="getFilmByShowType" resultMap="BaseResultMap">
+        select * from mtime_film_t where film_type = #{showType}
+    </select>
+>>>>>>> 702e1656fffbe6fee26e4ae0bc3d2f75bed44f80
 </mapper>

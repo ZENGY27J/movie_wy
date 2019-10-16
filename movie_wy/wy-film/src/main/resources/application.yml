@@ -46,3 +46,6 @@ logging:
   level.com.stylefeng: debug
   path: logs/
   file: wy-film.log
+
+pagehelper:
+  helper-dialect: mysql

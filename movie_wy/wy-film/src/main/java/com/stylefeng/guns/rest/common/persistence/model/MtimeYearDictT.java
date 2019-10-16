@@ -5,15 +5,13 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
-
 import java.io.Serializable;
 
 /**
  * <p>
  * 年代信息表
  * </p>
- *
- * @author wei
+ * @author stylefeng
  * @since 2019-10-14
  */
 @TableName("mtime_year_dict_t")
