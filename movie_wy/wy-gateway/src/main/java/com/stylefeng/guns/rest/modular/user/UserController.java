@@ -2,6 +2,7 @@ package com.stylefeng.guns.rest.modular.user;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.stylefeng.guns.rest.config.properties.JwtProperties;
+import com.stylefeng.guns.rest.modular.auth.util.Json2BeanUtils;
 import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
 import com.stylefeng.guns.rest.modular.auth.util.Md5Utils;
 import com.stylefeng.guns.rest.modular.vo.ReBaseDataVo;
@@ -104,8 +105,10 @@ public class UserController {
         try {
             if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
                 authToken = requestHeader.substring(7);
-                String usernameFromToken = jwtTokenUtil.getUsernameFromToken(authToken);
-                UserInfoModel userInfoModel = userService.getUserInfo(usernameFromToken);
+                String userInfoFromToken = jwtTokenUtil.getUsernameFromToken(authToken);
+                UserInfoModel userInfo = new UserInfoModel();
+                userInfo = (UserInfoModel) Json2BeanUtils.jsonToObj(userInfo, userInfoFromToken);
+                UserInfoModel userInfoModel = userService.getUserInfo(userInfo.getUsername());
                 ReBaseDataVo ok = ReBaseDataVo.ok(userInfoModel);
                 return ok;
             }

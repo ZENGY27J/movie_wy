@@ -18,6 +18,7 @@
         <module>wy-user</module>
         <module>wy-gateway</module>
         <module>wy-api</module>
+        <module>wy-order</module>
     </modules>
 
     <parent>
