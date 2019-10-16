@@ -1,7 +1,8 @@
 package com.wuyan.order;
 
-import com.wuyan.order.vo.OrderVo;
 import com.wuyan.order.vo.Page;
+import com.wuyan.vo.OrderVo;
+import jdk.net.SocketFlow;
 
 public interface OrderService {
 
@@ -19,4 +20,7 @@ public interface OrderService {
 
     //根据FieldId 获取所有已经销售的座位编号
     String getSoldSeatsByFieldId(Integer fieldId);
+
+    //修改订单编号
+    void updateOrderStatus(String orderId, Integer status);
 }
