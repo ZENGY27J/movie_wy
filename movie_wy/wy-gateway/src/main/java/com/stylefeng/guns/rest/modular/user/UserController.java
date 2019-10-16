@@ -37,7 +37,7 @@ public class UserController {
     @Autowired
     private JwtProperties jwtProperties;
 
-    @Reference(interfaceClass = UserService.class)
+    @Reference(interfaceClass = UserService.class,check = false)
     UserService userService;
 
     /**

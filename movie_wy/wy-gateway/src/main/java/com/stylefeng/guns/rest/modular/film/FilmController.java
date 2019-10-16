@@ -6,7 +6,9 @@ import com.stylefeng.guns.rest.modular.vo.FilmIndexVO;
 import com.stylefeng.guns.rest.modular.vo.ReBaseDataVo;
 import com.stylefeng.guns.rest.modular.vo.ResultVO;
 import com.wuyan.film.FilmService;
-import com.wuyan.film.vo.FilmConditionVO;
+import com.wuyan.film.service.FilmModuleService;
+import com.wuyan.film.vo.*;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("film")
 public class FilmController {
-    @Reference(interfaceClass = FilmService.class)
+    @Reference(interfaceClass = FilmService.class,check = false)
     private FilmService filmService;
+
+    @Reference(interfaceClass = FilmModuleService.class,check = false)
+    FilmModuleService filmModuleService;
 
     @RequestMapping("getIndex")
     public ResultVO filmIndex(){
@@ -36,5 +41,26 @@ public class FilmController {
         conditionVO.setSourceInfo(filmService.getSource(filmConditionVO.getSourceId()));
         conditionVO.setYearInfo(filmService.getYear(filmConditionVO.getYearId()));
         return ReBaseDataVo.ok(conditionVO);
+    }
+
+
+    @RequestMapping("/films/{id}")
+    public BaseRespVO getFilmsDetail(@PathVariable(value = "id") Integer id){
+        FilmDetailResponseVO filmDetail = filmModuleService.getFilmDetail(id);
+        return BaseRespVO.ok(filmDetail);
+    }
+
+    @RequestMapping("/getFilms")
+    public BaseRespVO getRelevantFilm(FilmQueryRequestVO filmQueryRequestVO){
+
+        if(filmQueryRequestVO.getShowType() != null){
+            BaseRespVO baseRespVO = filmModuleService.getFilmsByShowType(filmQueryRequestVO);
+            return baseRespVO;
+        }
+        if (filmQueryRequestVO.getKw() != null){
+            FilmQueryResult filmsByKeyword = filmModuleService.getFilmsByKeyword(filmQueryRequestVO.getKw());
+            return BaseRespVO.ok(filmsByKeyword);
+        }
+        return BaseRespVO.serviceErr();
     }
 }

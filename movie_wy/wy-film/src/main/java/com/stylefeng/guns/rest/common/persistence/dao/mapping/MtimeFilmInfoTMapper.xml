@@ -15,4 +15,7 @@
         <result column="film_imgs" property="filmImgs" />
     </resultMap>
 
+    <select id="getFilmInfoById" resultMap="BaseResultMap">
+        select * from mtime_film_info_t where film_id = #{id}
+    </select>
 </mapper>
