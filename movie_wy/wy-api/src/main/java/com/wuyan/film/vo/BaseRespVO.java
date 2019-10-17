@@ -70,7 +70,7 @@ public class BaseRespVO<T> implements Serializable {
     public static BaseRespVO serviceErr(){
         BaseRespVO baseRespVO = new BaseRespVO();
         baseRespVO.setStatus(1);
-        baseRespVO.setMsg("查询失败，五影片可加载");
+        baseRespVO.setMsg("查询失败，无影片可加载");
         return baseRespVO;
     }
 

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import redis.clients.jedis.Jedis;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Arrays;
@@ -113,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
         Integer filmId = mtimeFieldT.getFilmId();
         String[] split = soldSeats.split(",");
         String uuid =  UUID.randomUUID().toString();
-        uuid.replace("-", "");
+        uuid.replace("", "-");
 
         MtimeCinemaT mtimeCinemaT = mtimeCinemaTMapper.selectById(cinemaId);
         MtimeFilmT mtimeFilmT = mtimeFilmTMapper.selectById(filmId);
@@ -149,12 +150,12 @@ public class OrderServiceImpl implements OrderService {
         objectPage.setCurrent(page.getNowPage());
         objectPage.setSize(page.getPageSize());
 
-        OrderVo orderVo = new OrderVo();
         List<OrderVo> orderVoList = new LinkedList<>();
         EntityWrapper<MoocOrderT> entityWrapper = new EntityWrapper<>();
         entityWrapper.eq("order_user",userId);
         List<MoocOrderT> moocOrderTS = moocOrderTMapper.selectPage(objectPage,entityWrapper);
         for (MoocOrderT moocOrderT : moocOrderTS) {
+            OrderVo orderVo = new OrderVo();
             EntityWrapper<MtimeCinemaT> entityWrapper1 = new EntityWrapper<>();
             entityWrapper.eq("UUID",moocOrderT.getCinemaId());
             List<MtimeCinemaT> mtimeCinemaTS = mtimeCinemaTMapper.selectList(entityWrapper1);
@@ -169,15 +170,26 @@ public class OrderServiceImpl implements OrderService {
             entityWrapper.eq("UUID",moocOrderT.getFieldId());
             List<MtimeFieldT> mtimeFieldTS = mtimeFieldTMapper.selectList(entityWrapper3);
             String beginTime = mtimeFieldTS.get(0).getBeginTime();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+            String format = simpleDateFormat.format(new Date());
+            String time = format + " " + beginTime;
 
             orderVo.setOrderId(moocOrderT.getUuid());
             orderVo.setFilmName(filmName);
-            orderVo.setFieldTime(beginTime);
+            orderVo.setFieldTime(time);
             orderVo.setCinemaName(cinemaName);
             orderVo.setSeatsName(moocOrderT.getSeatsName());
             orderVo.setOrderPrice(moocOrderT.getOrderPrice().toString());
-            orderVo.setOrderTimestamp(moocOrderT.getOrderTime().toString());
-            orderVo.setOrderStatus(moocOrderT.getOrderStatus().toString());
+            orderVo.setOrderTimestamp(String.valueOf(moocOrderT.getOrderTime().getTime()/1000));
+            Integer orderStatus = moocOrderT.getOrderStatus();
+            String status = "未支付";
+            if (orderStatus == 1) {
+                status = "已支付";
+            }
+            if (orderStatus == 2) {
+                status = "已关闭";
+            }
+            orderVo.setOrderStatus(status);
             orderVoList.add(orderVo);
         }
         page.setList(orderVoList);

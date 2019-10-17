@@ -16,9 +16,6 @@ public class FilmController {
     @Reference(interfaceClass = FilmService.class,check = false)
     private FilmService filmService;
 
-    @Reference(interfaceClass = FilmModuleService.class,check = false)
-    FilmModuleService filmModuleService;
-
     @RequestMapping("getIndex")
     public ReBaseVo filmIndex(){
         FilmIndexVO filmIndex = new FilmIndexVO();
@@ -54,7 +51,11 @@ public class FilmController {
 
     @RequestMapping("/films/{id}")
     public BaseRespVO getFilmsDetail(@PathVariable(value = "id") Integer id){
-        FilmDetailResponseVO filmDetail = filmModuleService.getFilmDetail(id);
+        FilmDetailResponseVO filmDetail = filmService.getFilmDetail(id);
+        if (filmDetail == null) {
+            BaseRespVO baseRespVO = BaseRespVO.serviceErr();
+            return baseRespVO;
+        }
         return BaseRespVO.ok(filmDetail);
     }
 
@@ -62,11 +63,11 @@ public class FilmController {
     public BaseRespVO getRelevantFilm(FilmQueryRequestVO filmQueryRequestVO){
 
         if(filmQueryRequestVO.getShowType() != null){
-            BaseRespVO baseRespVO = filmModuleService.getFilmsByShowType(filmQueryRequestVO);
+            BaseRespVO baseRespVO = filmService.getFilmsByShowType(filmQueryRequestVO);
             return baseRespVO;
         }
         if (filmQueryRequestVO.getKw() != null){
-            FilmQueryResult filmsByKeyword = filmModuleService.getFilmsByKeyword(filmQueryRequestVO.getKw());
+            FilmQueryResult filmsByKeyword = filmService.getFilmsByKeyword(filmQueryRequestVO.getKw());
             return BaseRespVO.ok(filmsByKeyword);
         }
         return BaseRespVO.serviceErr();

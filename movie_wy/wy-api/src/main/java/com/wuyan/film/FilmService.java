@@ -23,4 +23,10 @@ public interface FilmService {
     List<SourceVO> getSource(Integer sourceId);
 
     List<YearVO> getYear(Integer yearId);
+
+    FilmDetailResponseVO getFilmDetail(Integer id);
+
+    BaseRespVO getFilmsByShowType(FilmQueryRequestVO filmQueryRequestVO);
+
+    FilmQueryResult getFilmsByKeyword(String kw);
 }
