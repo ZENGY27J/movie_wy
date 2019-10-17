@@ -11,6 +11,8 @@ import com.stylefeng.guns.rest.modular.auth.util.Json2BeanUtils;
 import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
 import com.stylefeng.guns.rest.modular.auth.util.Md5Utils;
 import com.stylefeng.guns.rest.modular.auth.validator.IReqValidator;
+import com.stylefeng.guns.rest.modular.vo.ReBaseDataVo;
+import com.stylefeng.guns.rest.modular.vo.ReBaseVo;
 import com.wuyan.user.UserService;
 import com.wuyan.user.bean.UserInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,7 @@ public class AuthController {
     private IReqValidator reqValidator;
 
     @RequestMapping(value = "${jwt.auth-path}")
-    public ResponseEntity<?> createAuthenticationToken(AuthRequest authRequest) {
+    public ReBaseVo createAuthenticationToken(AuthRequest authRequest) {
 
 //        boolean validate = reqValidator.validate(authRequest);
         // 自己的逻辑
@@ -63,7 +65,10 @@ public class AuthController {
             final String token = jwtTokenUtil.generateToken(objToJson, randomKey);
             jedis.set(token, userName);
             jedis.expire(token, 3600);
-            return ResponseEntity.ok(new AuthResponse(token, randomKey));
+//            return ResponseEntity.ok(new AuthResponse(token, randomKey));
+            ReBaseDataVo ok = ReBaseDataVo.ok(new AuthResponse(token, randomKey));
+            return ok;
+
         } else {
             throw new GunsException(BizExceptionEnum.AUTH_REQUEST_ERROR);
         }

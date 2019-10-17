@@ -13,6 +13,7 @@ public class ResultVO extends ReBaseDataVo{
 
     public static ResultVO ok(String imgPre,Object data){
         ResultVO resultVO = new ResultVO();
+        resultVO.setStatus(0);
         resultVO.setData(data);
         resultVO.setStatus(0);
         resultVO.setImgPre(imgPre);
