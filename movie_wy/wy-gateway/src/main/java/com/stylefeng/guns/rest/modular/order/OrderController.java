@@ -8,14 +8,13 @@ import com.stylefeng.guns.rest.modular.vo.ReBaseDataVo;
 import com.stylefeng.guns.rest.modular.vo.ReBaseMsgVo;
 import com.stylefeng.guns.rest.modular.vo.ReBaseVo;
 import com.wuyan.order.OrderService;
-import com.wuyan.order.vo.OrderVo;
 import com.wuyan.order.vo.Page;
 import com.wuyan.order.vo.SeatsInfo;
 import com.wuyan.user.bean.UserInfoModel;
+import com.wuyan.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class OrderController {
     @Autowired
     private JwtProperties jwtProperties;
 
-    @Reference(interfaceClass = OrderService.class, check = false)
+    @Reference(interfaceClass = OrderService.class)
     OrderService orderService;
 
     /**
@@ -63,6 +62,7 @@ public class OrderController {
         if (!noSoldSeats) {
             ReBaseMsgVo reBaseMsgVo = ReBaseMsgVo.serviceEx();
             reBaseMsgVo.setMsg("该座位已经被购买");
+            return reBaseMsgVo;
         }
         // 3.下单，生成订单信息
         String requestHeader = request.getHeader(jwtProperties.getHeader());
@@ -74,6 +74,8 @@ public class OrderController {
                 UserInfoModel userInfo = new UserInfoModel();
                 userInfo = (UserInfoModel) Json2BeanUtils.jsonToObj(userInfo, userInfoFromToken);
                 OrderVo orderVo = orderService.saveOrderInfo(Integer.valueOf(seatsInfo.getFieldId()), seatsInfo.getSoldSeats(), seatsInfo.getSeatsName(), userInfo.getUuid());
+                ReBaseDataVo ok = ReBaseDataVo.ok(orderVo);
+                return ok;
             }
             return ReBaseMsgVo.systemEx();
         } catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.stylefeng.guns.rest.modular.auth.util;
 
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -23,6 +24,11 @@ public class Json2BeanUtils {
     public static Object jsonToObj(Object obj,String jsonStr) throws JsonParseException,JsonMappingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         return obj = mapper.readValue(jsonStr, obj.getClass());
+    }
+
+    public static Object json2Bean(Object object, String jsonStr) {
+        Object o = JSON.parseObject(jsonStr, object.getClass());
+        return o;
     }
     /*
      * 002.对象转换成json
