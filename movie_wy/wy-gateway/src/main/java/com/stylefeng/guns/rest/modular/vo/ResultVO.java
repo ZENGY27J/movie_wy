@@ -1,17 +1,7 @@
 package com.stylefeng.guns.rest.modular.vo;
 
-public class ResultVO {
-    private Integer status;
+public class ResultVO extends ReBaseDataVo{
     private String imgPre;
-    private Object data;
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 
     public String getImgPre() {
         return imgPre;
@@ -21,19 +11,10 @@ public class ResultVO {
         this.imgPre = imgPre;
     }
 
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    public static ResultVO ok(Object data){
+    public static ResultVO ok(String imgPre,Object data){
         ResultVO resultVO = new ResultVO();
         resultVO.setData(data);
-        resultVO.setStatus(0);
-        resultVO.setImgPre("http://img.meetingshop.cn/");
+        resultVO.setImgPre(imgPre);
         return resultVO;
     }
 }
