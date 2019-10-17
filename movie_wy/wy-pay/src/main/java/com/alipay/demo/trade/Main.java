@@ -21,10 +21,12 @@ import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
 import com.alipay.demo.trade.utils.Utils;
 import com.alipay.demo.trade.utils.ZxingUtils;
+import com.wuyan.oss.Oss;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -436,7 +438,8 @@ public class Main {
                 String filePath = String.format("C:\\png/%s.png",
                     response.getOutTradeNo());
                 log.info("filePath:" + filePath);
-                ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
+                File qrCodeImge = ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
+                Oss.upload(qrCodeImge,s + ".png");
                 break;
 
             case FAILED:

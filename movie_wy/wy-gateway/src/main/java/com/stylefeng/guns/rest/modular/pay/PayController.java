@@ -33,7 +33,7 @@ public class PayController {
         if (payInfo == null){
             return ReBaseMsgVo.error(1,"订单支付失败,请稍后重试");
         }
-        return ResultVO.ok("C:\\png",payInfo);
+        return ResultVO.ok("https://wymovie.oss-cn-shenzhen.aliyuncs.com/",payInfo);
     }
 
     @RequestMapping("getPayResult")
