@@ -1,5 +1,6 @@
 package com.stylefeng.guns.rest.modular.pay;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.stylefeng.guns.rest.modular.vo.ReBaseDataVo;
 import com.stylefeng.guns.rest.modular.vo.ReBaseMsgVo;
 import com.stylefeng.guns.rest.modular.vo.ReBaseVo;
@@ -18,7 +19,7 @@ import java.util.Map;
 @RequestMapping("order")
 public class PayController {
 
-    @Autowired
+    @Reference(interfaceClass = PayService.class,check = false)
     PayService payService;
 
     @RequestMapping("getPayInfo")
@@ -32,7 +33,7 @@ public class PayController {
         if (payInfo == null){
             return ReBaseMsgVo.error(1,"订单支付失败,请稍后重试");
         }
-        return ResultVO.ok("F:\\png",payInfo);
+        return ResultVO.ok("C:\\png",payInfo);
     }
 
     @RequestMapping("getPayResult")

@@ -19,6 +19,7 @@
         <module>wy-gateway</module>
         <module>wy-api</module>
         <module>wy-order</module>
+        <module>wy-pay</module>
     </modules>
 
     <parent>

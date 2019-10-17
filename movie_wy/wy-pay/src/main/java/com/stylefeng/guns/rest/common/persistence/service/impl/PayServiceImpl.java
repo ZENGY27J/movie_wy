@@ -1,8 +1,10 @@
 package com.stylefeng.guns.rest.common.persistence.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alipay.demo.trade.Main;
 import com.stylefeng.guns.rest.modular.order.OrderServiceImpl;
+import com.wuyan.order.OrderService;
 import com.wuyan.pay.PayService;
 import com.wuyan.pay.bean.PayInfo;
 import com.wuyan.pay.bean.PayResult;
@@ -11,6 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Service(interfaceClass = PayService.class)
 public class PayServiceImpl implements PayService{
+
+    @Reference(interfaceClass = OrderService.class)
+    OrderService orderService;
 
     @Override
     public PayInfo getPayInfo(String orderId) {
@@ -30,7 +35,6 @@ public class PayServiceImpl implements PayService{
     @Override
     public PayResult getPayResult(String orderId, Integer tryNums) {
         Main main = new Main();
-        OrderServiceImpl orderService  = new OrderServiceImpl();
         Boolean flag = main.test_trade_query(orderId);
         if (tryNums > 3){
             orderService.updateOrderStatus(orderId,2);
