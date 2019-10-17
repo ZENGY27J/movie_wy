@@ -1,10 +1,7 @@
 package com.stylefeng.guns.rest.modular.film;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.stylefeng.guns.rest.modular.vo.ConditionVO;
-import com.stylefeng.guns.rest.modular.vo.FilmIndexVO;
-import com.stylefeng.guns.rest.modular.vo.ReBaseDataVo;
-import com.stylefeng.guns.rest.modular.vo.ResultVO;
+import com.stylefeng.guns.rest.modular.vo.*;
 import com.wuyan.film.FilmService;
 import com.wuyan.film.service.FilmModuleService;
 import com.wuyan.film.vo.*;
@@ -23,23 +20,34 @@ public class FilmController {
     FilmModuleService filmModuleService;
 
     @RequestMapping("getIndex")
-    public ResultVO filmIndex(){
+    public ReBaseVo filmIndex(){
         FilmIndexVO filmIndex = new FilmIndexVO();
-        filmIndex.setBanners(filmService.getBanner());
-        filmIndex.setHotFilms(filmService.getHotFilm(0,false));
-        filmIndex.setSoonFilms(filmService.getSoonFilm(0,false));
-        filmIndex.setBoxRanking(filmService.getBoxRanking(0));
-        filmIndex.setExpectRanking(filmService.getExpectRanking(0));
-        filmIndex.setTop100(filmService.getTop100(0));
-        return ResultVO.ok(filmIndex);
+        try {
+            filmIndex.setBanners(filmService.getBanner());
+            filmIndex.setHotFilms(filmService.getHotFilm(0, false));
+            filmIndex.setSoonFilms(filmService.getSoonFilm(0, false));
+            filmIndex.setBoxRanking(filmService.getBoxRanking(0));
+            filmIndex.setExpectRanking(filmService.getExpectRanking(0));
+            filmIndex.setTop100(filmService.getTop100(0));
+        }catch (Throwable e){
+            return ReBaseMsgVo.error(999,"系统出现异常，请联系管理员");
+        }
+        if (filmIndex.getBanners() == null){
+            return ReBaseMsgVo.error(1,"查询失败，无banner可加载");
+        }
+        return ResultVO.ok("http://img.meetingshop.cn/",filmIndex);
     }
 
     @RequestMapping("getConditionList")
-    public ReBaseDataVo getConditionList(FilmConditionVO filmConditionVO){
+    public ReBaseVo getConditionList(FilmConditionVO filmConditionVO){
         ConditionVO conditionVO = new ConditionVO();
-        conditionVO.setCatInfo(filmService.getCat(filmConditionVO.getCatId()));
-        conditionVO.setSourceInfo(filmService.getSource(filmConditionVO.getSourceId()));
-        conditionVO.setYearInfo(filmService.getYear(filmConditionVO.getYearId()));
+        try {
+            conditionVO.setCatInfo(filmService.getCat(filmConditionVO.getCatId()));
+            conditionVO.setSourceInfo(filmService.getSource(filmConditionVO.getSourceId()));
+            conditionVO.setYearInfo(filmService.getYear(filmConditionVO.getYearId()));
+        }catch (Throwable e){
+            return ReBaseMsgVo.error(999,"系统出现异常，请联系管理员");
+        }
         return ReBaseDataVo.ok(conditionVO);
     }
 

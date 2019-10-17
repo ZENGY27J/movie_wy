@@ -36,4 +36,11 @@ public class ReBaseMsgVo extends ReBaseVo{
         reBaseMsgVo.setMsg("系统出现异常，请联系管理员");
         return reBaseMsgVo;
     }
+
+    public static ReBaseMsgVo error(Integer status,String msg){
+        ReBaseMsgVo reBaseMsgVo = new ReBaseMsgVo();
+        reBaseMsgVo.setStatus(status);
+        reBaseMsgVo.setMsg(msg);
+        return reBaseMsgVo;
+    }
 }
