@@ -9,5 +9,5 @@ import java.util.List;
 public class CinemaCondition implements Serializable {
     List<AreaVo> areaList;
     List<BrandVo> brandList;
-    List<HallTypeVo> hallTypeList;
+    List<HallTypeVo> halltypeList;
 }

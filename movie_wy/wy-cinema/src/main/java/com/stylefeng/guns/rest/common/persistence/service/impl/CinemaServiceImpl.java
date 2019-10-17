@@ -1,11 +1,14 @@
 package com.stylefeng.guns.rest.common.persistence.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.rest.common.persistence.dao.*;
 import com.stylefeng.guns.rest.common.persistence.model.*;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import com.wuyan.cinema.CinemaService;
+import com.wuyan.order.OrderService;
 import com.wuyan.vo.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,8 @@ public class CinemaServiceImpl implements CinemaService {
     @Autowired
     MtimeFilmTMapper mtimeFilmTMapper;
 
+    @Reference(interfaceClass = OrderService.class)
+    OrderService orderService;
 
     @Override
     public CinemaGetFieldsVo getFields(Integer cinemaId) {
@@ -86,7 +91,7 @@ public class CinemaServiceImpl implements CinemaService {
         hallInfoVo.setPrice(mtimeFieldT.getPrice());
 
 //        hallInfoVo.setSeatFile();
-//        hallInfoVo.setSoldSeats();
+        hallInfoVo.setSoldSeats(orderService.getSoldSeatsByFieldId(fieldId));
 
         return hallInfoVo;
     }
@@ -253,7 +258,7 @@ public class CinemaServiceImpl implements CinemaService {
 
         //将查询的影厅类型转化成返回类型的vo
         List<HallTypeVo> hallTypeVos = mtimeHallDictT2halltypevo(mtimeHallDictTS, cinemaConditionQueryVo.getHallType());
-        cinemaCondition.setHallTypeList(hallTypeVos);
+        cinemaCondition.setHalltypeList(hallTypeVos);
 
         cinemaCoditionVo.setData(cinemaCondition);
         cinemaCoditionVo.setStatus(0);
