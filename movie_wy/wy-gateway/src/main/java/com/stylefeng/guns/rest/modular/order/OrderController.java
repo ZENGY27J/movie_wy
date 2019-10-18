@@ -35,7 +35,7 @@ public class OrderController {
     @Autowired
     private JwtProperties jwtProperties;
 
-    @Reference(interfaceClass = OrderService.class)
+    @Reference(interfaceClass = OrderService.class,check = false)
     OrderService orderService;
 
     /**
