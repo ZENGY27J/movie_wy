@@ -48,7 +48,10 @@ public class AuthFilter extends OncePerRequestFilter {
 //        }
         String[] split = jwtProperties.getIgnorelUrl().split(",");
         String servletPath = request.getServletPath();
-        String substring = servletPath.substring(0, 11);
+        String substring = "";
+        if (servletPath.length() > 12 ) {
+            substring = servletPath.substring(0, 11);
+        }
         for (String s : split) {
             if (request.getServletPath().equals(s) || substring.equals(s)) {
             chain.doFilter(request, response);
