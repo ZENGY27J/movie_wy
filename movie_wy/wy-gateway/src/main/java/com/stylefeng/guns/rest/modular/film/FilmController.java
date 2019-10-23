@@ -1,10 +1,12 @@
 package com.stylefeng.guns.rest.modular.film;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.stylefeng.guns.rest.modular.cache.CacheService;
 import com.stylefeng.guns.rest.modular.vo.*;
 import com.wuyan.film.FilmService;
 import com.wuyan.film.service.FilmModuleService;
 import com.wuyan.film.vo.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +18,18 @@ public class FilmController {
     @Reference(interfaceClass = FilmService.class,check = false)
     private FilmService filmService;
 
+    @Autowired
+    private CacheService cacheService;
+
     @RequestMapping("getIndex")
     public ReBaseVo filmIndex(){
+
+        Object filmIndex1 = cacheService.get("filmIndex");
+        if (filmIndex1 != null) {
+            FilmIndexVO filmIndex = (FilmIndexVO) filmIndex1;
+            return ResultVO.ok("http://img.meetingshop.cn/",filmIndex);
+        }
+
         FilmIndexVO filmIndex = new FilmIndexVO();
         try {
             filmIndex.setBanners(filmService.getBanner());
@@ -26,6 +38,7 @@ public class FilmController {
             filmIndex.setBoxRanking(filmService.getBoxRanking(0));
             filmIndex.setExpectRanking(filmService.getExpectRanking(0));
             filmIndex.setTop100(filmService.getTop100(0));
+            cacheService.set("filmIndex",filmIndex);
         }catch (Throwable e){
             return ReBaseMsgVo.error(999,"系统出现异常，请联系管理员");
         }

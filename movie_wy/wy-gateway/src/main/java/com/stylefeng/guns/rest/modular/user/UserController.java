@@ -12,9 +12,10 @@ import com.wuyan.user.UserService;
 import com.wuyan.user.bean.UserInfoModel;
 import com.wuyan.user.bean.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
     @Autowired
-    private Jedis jedis;
+    private StringRedisTemplate redisTemplate;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -139,7 +140,7 @@ public class UserController {
             if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
                 authToken = requestHeader.substring(7);
                 // 在redis中删除该token
-                jedis.del(authToken);
+                redisTemplate.delete(authToken);
                 ReBaseMsgVo ok = ReBaseMsgVo.ok();
                 ok.setMsg("注销成功！");
                 return ok;

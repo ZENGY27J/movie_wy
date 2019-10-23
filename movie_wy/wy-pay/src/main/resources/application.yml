@@ -36,17 +36,10 @@ spring:
     server: true
     registry: zookeeper://localhost:2181
   datasource:
-<<<<<<< HEAD
       url: jdbc:mysql://127.0.0.1:3306/movie_wy?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
       username: root
       password: 123456
       filters: log4j,wall,mergeStat
-=======
-    url: jdbc:mysql://127.0.0.1:3306/movie_wy?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
-    username: root
-    password: 123456
-    filters: log4j,wall,mergeStat
->>>>>>> 7ea3b253ff490e1a292b178d678b5aa659d9894a
 
 logging:
   level.root: info

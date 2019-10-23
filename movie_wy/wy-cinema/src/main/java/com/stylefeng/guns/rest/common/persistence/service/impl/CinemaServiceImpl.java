@@ -36,7 +36,7 @@ public class CinemaServiceImpl implements CinemaService {
     @Autowired
     MtimeFilmTMapper mtimeFilmTMapper;
 
-    @Reference(interfaceClass = OrderService.class)
+    @Reference(interfaceClass = OrderService.class,check = false)
     OrderService orderService;
 
     @Override

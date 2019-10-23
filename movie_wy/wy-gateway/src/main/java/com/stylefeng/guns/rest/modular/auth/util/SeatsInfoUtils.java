@@ -2,9 +2,11 @@ package com.stylefeng.guns.rest.modular.auth.util;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import redis.clients.jedis.Jedis;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Program: movie_wy
@@ -15,7 +17,7 @@ import java.io.*;
 public class SeatsInfoUtils {
 
     @Autowired
-    private Jedis jedis;
+    private StringRedisTemplate redisTemplate;
 
     // 1.读取文件
     public static String getJsonString(String path) throws IOException {
@@ -37,9 +39,10 @@ public class SeatsInfoUtils {
 
     // 2.将各个信息存储到redis中
     public void insertRedis(String path, String strJson) {
-        if (StringUtils.isBlank(jedis.get(path))) {
-            jedis.set(path,strJson);
-            jedis.expire(path, 3600);
+        if (StringUtils.isBlank((String) redisTemplate.opsForValue().get(path))) {
+            redisTemplate.opsForValue().set(path,strJson);
+            redisTemplate.expire(path, 3, TimeUnit.HOURS);
         }
-        jedis.expire(path, 3600);    }
+        redisTemplate.expire(path, 3,TimeUnit.HOURS);
+    }
 }

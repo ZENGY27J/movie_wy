@@ -3,7 +3,6 @@ package com.stylefeng.guns.rest.modular.auth.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.stylefeng.guns.core.exception.GunsException;
-import com.stylefeng.guns.core.util.MD5Util;
 import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.rest.modular.auth.controller.dto.AuthRequest;
 import com.stylefeng.guns.rest.modular.auth.controller.dto.AuthResponse;
@@ -16,12 +15,12 @@ import com.stylefeng.guns.rest.modular.vo.ReBaseVo;
 import com.wuyan.user.UserService;
 import com.wuyan.user.bean.UserInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 请求验证的
@@ -36,7 +35,7 @@ public class AuthController {
     UserService userService;
 
     @Autowired
-    private Jedis jedis;
+    private StringRedisTemplate redisTemplate;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -63,8 +62,9 @@ public class AuthController {
         if (uid == 1) {
             final String randomKey = jwtTokenUtil.getRandomKey();
             final String token = jwtTokenUtil.generateToken(objToJson, randomKey);
-            jedis.set(token, userName);
-            jedis.expire(token, 3600);
+            String key = "token_key_prefix_"+userName;
+            redisTemplate.opsForValue().set(key, token);
+            redisTemplate.expire(token, 3, TimeUnit.HOURS);
 //            return ResponseEntity.ok(new AuthResponse(token, randomKey));
             ReBaseDataVo ok = ReBaseDataVo.ok(new AuthResponse(token, randomKey));
             return ok;

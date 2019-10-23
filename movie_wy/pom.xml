@@ -20,6 +20,8 @@
         <module>wy-api</module>
         <module>wy-order</module>
         <module>wy-pay</module>
+        <module>my-promo</module>
+        <module>guns-alipay</module>
     </modules>
 
     <parent>

@@ -265,7 +265,7 @@ public class FilmServiceImpl implements FilmService {
         MtimeFilmT filmById = films.get(0);
 
         EntityWrapper<MtimeFilmInfoT> entity1 = new EntityWrapper<>();
-        entity.eq("film_id", id);
+        entity1.eq("film_id", id);
         List<MtimeFilmInfoT> filmInfoT = filmInfoTMapper.selectList(entity1);
         if (CollectionUtils.isEmpty(filmInfoT)) {
             return null;
@@ -274,7 +274,7 @@ public class FilmServiceImpl implements FilmService {
 
 
         EntityWrapper<MtimeHallFilmInfoT> entity2 = new EntityWrapper<>();
-        entity.eq("film_id", id);
+        entity2.eq("film_id", id);
         List<MtimeHallFilmInfoT> hallFilmInfoTS = hallFilmInfoTMapper.selectList(entity2);
         if (CollectionUtils.isEmpty(hallFilmInfoTS)) {
             return null;
@@ -294,7 +294,7 @@ public class FilmServiceImpl implements FilmService {
 
             // zy
             EntityWrapper<MtimeActorT> entity3 = new EntityWrapper<>();
-            entity.eq("actor_name", actorName);
+            entity3.eq("actor_name", actorName);
             List<MtimeActorT> mtimeActorTS = actorTMapper.selectList(entity3);
             if (CollectionUtils.isEmpty(mtimeActorTS)) {
                 return null;
@@ -306,7 +306,7 @@ public class FilmServiceImpl implements FilmService {
 
             // zy
             EntityWrapper<MtimeFilmActorT> entity4 = new EntityWrapper<>();
-            entity.eq("actor_name", actorName);
+            entity4.eq("actor_id", actorId).eq("film_id",id);
             List<MtimeFilmActorT> mtimeFilmActorTS = filmActorTMapper.selectList(entity4);
             if (CollectionUtils.isEmpty(mtimeFilmActorTS)) {
                 return null;
